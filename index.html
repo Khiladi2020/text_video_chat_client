@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Any Chat</title>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<script defer src="js/scripts.js" type="text/javascript"></script>
+	<script defer src="js/video_call_main.js" type="text/javascript"></script>
+	<script defer src="js/video_call_tools.js" type="text/javascript"></script>
+</head>
+<body>
+	<!-- Request Modal -->
+	<div class="modal" id="requestModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2>Allow Video Call ?</h2>
+			</div>
+			<div class="modal-body">
+				<p>Caller : <span class="caller_info"></span></p>
+			</div>
+			<div class="modal-footer">
+				<div class="request_modal_btns">
+					<button class="cancel_call">CANCEL</button>
+					<button class="allow_call">ALLOW CALL</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal -->
+
+	<!-- floating add chat sidebar -->
+	<div class="sidenav" id="addChatSideBar">
+		<div class="addChat_header">
+			<div class="tools">
+				<img class="icon_hover" src="images/arrow_back-white-24dp.svg" onclick="closeAddChatBar()">
+				<span>New chat</span>
+			</div>
+		</div>
+		<div class="addChat_main">
+			<div class="newchat_container" onclick="openAddUserBar()">
+				<div class="newchat_profile">
+					<img src="images/group_add-white-24dp.svg" class="profile_pic private_pic">
+				</div>
+				<div class="newchat_text">
+					<div class="chat_details">
+						<span class="newchat_name">New Private Chat</span>
+					</div>
+				</div>
+			</div>
+			<div class="newchat_heading" >
+				<div class="heading_text">
+					<span>Chat Rooms</span>
+				</div>
+			</div>
+			<div class="newchat_container" data-roomCode="college">
+				<div class="newchat_profile">
+					<img src="images/face-white-24dp.svg" class="profile_pic">
+				</div>
+				<div class="newchat_text">
+					<div class="chat_details">
+						<span class="newchat_name">College</span>
+					</div>
+					<div class="status">
+						<span>All Clg Talks</span>
+					</div>
+				</div>
+			</div>
+			<div class="newchat_container" data-roomCode="programming">
+				<div class="newchat_profile">
+					<img src="images/face-white-24dp.svg" class="profile_pic">
+				</div>
+				<div class="newchat_text">
+					<div class="chat_details">
+						<span class="newchat_name">Programming</span>
+					</div>
+					<div class="status">
+						<span>Lets Code together</span>
+					</div>
+				</div>
+			</div>
+			<div class="newchat_container" data-roomCode="fun">
+				<div class="newchat_profile">
+					<img src="images/face-white-24dp.svg" class="profile_pic">
+				</div>
+				<div class="newchat_text">
+					<div class="chat_details">
+						<span class="newchat_name">Fun</span>
+					</div>
+					<div class="status">
+						<span>Any Funny Talk</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end add chat -->
+
+	<!-- floating add User sidebar -->
+	<div class="sidenav" id="addUserSideBar">
+		<div class="addUser_header">
+			<div class="tools">
+				<img class="icon_hover" src="images/arrow_back-white-24dp.svg" onclick="closeAddUserBar()">
+				<span>New Chat Participant</span>
+			</div>
+		</div>
+		<div class="addUser_main">
+			<div class="addUser_container" onclick="openAddUserBar()">
+				<div class="input_container">
+					<div class="input_border">
+						<input type="text" placeholder="Type User ID" id="target_chat_user_id">
+					</div>
+				</div>
+				<div class="button_container">
+					<button class="icon_hover" id="create_new_chat">Start Chat</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end add user sidebar -->
+
+	<!-- floating video chat sidebar -->
+	<div class="sidenav" id="videoContainerSidebar">
+		<a href="javascript:void(0)" class="closeVideoCont" onclick="closeVideoCallContBar()">&times;</a>
+		<div class="videoCallMain">
+			<div class="video_elements">
+				<video id="local_video" autoplay muted></video>
+				<video id="remote_video" autoplay></video>
+			</div>
+			<div class="video_controls">
+				<div id="start_call" onclick="start_call()">
+					<img src="images/call-white-24dp.svg">
+				</div>
+				<div id="end_call" onclick="end_call()">
+					<img src="images/call_end-white-24dp.svg">
+				</div>
+				<div id="mute_video">
+					<img src="images/videocam-white-24dp.svg">
+				</div>
+				<div id="mute_audio">
+					<img src="images/mic-white-24dp.svg">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end video chat sidebar -->
+
+	<div class="app_container borders">
+		<div class="sidebar borders">
+			<div class="side_header borders">
+				<img src="images/account_circle-white-48dp.svg">
+				<div class="header_right">
+					<img src="images/donut_large-white-24dp.svg">
+					<img class="icon_hover" src="images/chat-white-24dp.svg" onclick="openAddChatBar()">
+					<img src="images/more_vert-white-24dp.svg">
+				</div>
+			</div>
+			<div class="warnings_panel">
+				<div class="warning_icon">
+					<img src="images/perm_scan_wifi-white-24dp.svg">
+				</div>
+				<div class="warning_content">
+					<div class="content_heading">
+						Computer not connected
+					</div>
+					<div class="content_text">
+						Make sure your computer has an active Internet connection.
+						<p>Reconnect</p> 
+					</div>
+				</div>
+			</div>
+			<div class="side_searchbar borders">
+				<div class="searchbox_container">
+					<img src="images/search-white-24dp.svg">
+					<input type="text" name="search_chat" placeholder="Search or start new chat">
+				</div>
+			</div>
+			<div class="side_chats borders">
+				<div id="clink0" class="sidechat_container sidechat_active" onclick="openChat(event, 'chat0')" data-chatbarid="chat0">
+					<div class="sidechat_profile">
+						<img src="images/notifications-white-24dp.svg" class="profile_pic">
+					</div>
+					<div class="sidechat_text">
+						<div class="chat_details">
+							<span class="sidechat_user_name">Notifications</span>
+							<span class="last_msg_time"></span>
+						</div>
+						<div class="last_messages">
+							<span>See Notifications</span>
+						</div>
+					</div>
+				</div>
+				<!--
+				<div id="clink1" class="sidechat_container" onclick="openChat(event, 'chat1')">
+					<div class="sidechat_profile">
+						<img src="images/face-white-24dp.svg" class="profile_pic">
+					</div>
+					<div class="sidechat_text">
+						<div class="chat_details">
+							<span class="sidechat_user_name">Rohan Malpani</span>
+							<span>10:25 PM</span>
+						</div>
+						<div class="last_messages">
+							<span>I will be coming</span>
+						</div>
+					</div>
+				</div>
+				<div id="clink2" class="sidechat_container" onclick="openChat(event, 'chat2')">
+					<div class="sidechat_profile">
+						<img src="images/face-white-24dp.svg" class="profile_pic">
+					</div>
+					<div class="sidechat_text">
+						<div class="chat_details">
+							<span class="sidechat_user_name">Samik Guleria</span>
+							<span>3:25 PM</span>
+						</div>
+						<div class="last_messages">
+							<span>Ok done</span>
+						</div>
+					</div>
+				</div>
+				-->
+			</div>
+		</div>
+		<div class="chatbar borders">
+			<div class="chat_image"></div>
+			<div class="chatbar_header">
+				<div class="header_profile">
+					<img src="images/face-white-24dp.svg" class="profile_pic rounded_img">
+				</div>
+				<div class="header_details">
+					<div class="chat_details">
+						<span class="chatbar_username">Notifications</span>
+					</div>
+					<div class="chat_status">
+						<span>online</span>
+					</div>
+				</div>
+				<div class="header_option_panel">
+					<img class="icon_hover" src="images/videocam-white-24dp.svg" onclick="openVideoCallContBar()">
+					<img src="images/search-white-24dp.svg">
+					<img src="images/more_vert-white-24dp.svg">
+				</div>
+			</div>
+			<div class="chatbar_main">
+				<div id="chat0" class="chat_display_box" data-chatType="notif" data-chatID="" data-sidebarid="clink0">
+					<div class="upper_padding"></div>
+					<!--<div class="msg_container">
+						<div class="msg_card user_sended_msg">
+							<div class="msg_card-header">
+								<span>ID: 14</span>
+							</div>
+							<div class="msg_card-body">
+								<span class="crd_msg_text">hello i am naman</span>
+								<span class="blank_spacing"></span>
+							</div>
+							<div class="msg_card-footer">
+								<span>5:50 PM</span>
+							</div>
+						</div>
+					</div>-->
+				</div>
+				<!--
+				<div id="chat1" class="chat_display_box" data-chatType="persChat" data-chatID="">
+					<div class="upper_padding"></div>
+					<div class="msg_container">
+						<div class="msg_card user_sended_msg">
+							<div class="msg_card-header">
+								<span>ID: 14</span>
+							</div>
+							<div class="msg_card-body">
+								<span>hello i am naman</span>
+							</div>
+						</div>
+					</div>
+					<div class="msg_container">
+						<div class="msg_card user_received_msg">
+							<div class="msg_card-header">
+								<span>ID: 14</span>
+							</div>
+							<div class="msg_card-body">
+								<span>hello naman i am deepak</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="chat2" class="chat_display_box" data-chatType="persChat" data-chatID="">
+					<div class="upper_padding"></div>
+					<div class="msg_container">
+						<div class="msg_card user_sended_msg">
+							<div class="msg_card-header">
+								<span>ID: 14</span>
+							</div>
+							<div class="msg_card-body">
+								<span>i am still waiting</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				-->
+			</div>
+			<div class="chatbar_footer">
+				<div class="message_toolbar">
+					<img src="images/mood-white-24dp.svg">
+					<img src="images/attach_file-white-24dp.svg">
+				</div>
+				<div class="message_field">
+					<div class="message_field_container">
+						<input type="text" id="typed_message_text" placeholder="Type a message">
+					</div>
+				</div>
+				<div class="message_send">
+					<img src="images/send-white-24dp.svg" class="icon_hover" id="send_msg_btn" >
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
